@@ -1,0 +1,88 @@
+* {
+  font-family: 'Roboto', Arial, Helvetica, sans-serif;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background: #6a89cc;
+  width: 100%;
+}
+
+body nav {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  background: #5a69bd;
+}
+
+body nav .nav-item {
+  text-align: center;
+  -ms-flex-line-pack: center;
+      align-content: center;
+  width: 8vw;
+}
+
+body nav .nav-item a {
+  display: inline-block;
+  margin: 1vw 0;
+  height: 100%;
+  color: #fff;
+  font-size: 20px;
+  text-decoration: none;
+}
+
+body #records-modal {
+  width: 98%;
+  min-height: 90vh;
+  margin: 2vh auto 0px auto;
+  background: #f9f1f1;
+}
+
+body #records-modal #records-controls {
+  width: 86%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  padding: 1% 0px 1% 4%;
+}
+
+body #records-modal #records-controls h1 {
+  min-width: 20%;
+}
+
+body #records-modal #records-controls div button {
+  display: block;
+  min-width: 100px;
+  height: 30px;
+}
+
+body #records-modal #records-list {
+  width: 90%;
+  margin: 0 auto;
+}
+
+body #records-modal #records-list tr {
+  width: 100%;
+  border: 1px solid #000;
+}
+
+body #records-modal #records-list td, body #records-modal #records-list th {
+  width: 8%;
+  height: 1.5em;
+  text-align: center;
+}
+
+body #records-modal #records-list td button, body #records-modal #records-list th button {
+  height: 100%;
+  width: 80%;
+}
+
+body #records-modal #records-list .id {
+  width: 3%;
+}
+/*# sourceMappingURL=sales.css.map */

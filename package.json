@@ -1,0 +1,23 @@
+{
+  "name": "cs4430finalproject",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dobis32/cs4430_finalproject.git"
+  },
+  "author": "Scott J VanderWeide",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dobis32/cs4430_finalproject/issues"
+  },
+  "homepage": "https://github.com/dobis32/cs4430_finalproject#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mysql": "github:mysqljs/mysql"
+  }
+}

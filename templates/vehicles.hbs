@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" type="text/css" href="./css/vehicles.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+    <title>Document</title>
+</head>
+<body>
+    <nav>
+        <div class="nav-item"><a href="/sales"><strong>Sales</strong></a></div>
+        <div class="nav-item"><a href="/vehicles"><strong>Vehicles</strong></a></div>
+        <div class="nav-item"><a href="/customers"><strong>Customers</strong></a></div>
+        <div class="nav-item"><a href="/employees"><strong>Employees</strong></a></div>
+    </nav>
+    <input id="hidden-buffer" type="hidden" value="{{ data }}">
+    <div id="records-modal">
+        <div id="records-controls">
+            <h1>Vehicle records</h1>
+            <div>
+                <button>Create new vehicle</button>
+            </div>
+        </div>
+        <table id="records-list">
+            <tr>
+                <th class="id">ID</th>
+                <th>Make</th>
+                <th>Model</th>
+                <th>Year</th>
+                <th>Color</th>
+                <th>Price</th>
+            </tr>
+        </table>
+    </div>
+</body>
+<script src="./js/vehicles.js"></script>
+</html>
