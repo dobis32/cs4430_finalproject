@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" type="text/css" href="css/employees.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+    <title>Document</title>
+</head>
+<body>
+    <nav>
+        <div class="nav-item"><a href="/sales"><strong>Sales</strong></a></div>
+        <div class="nav-item"><a href="/vehicles"><strong>Vehicles</strong></a></div>
+        <div class="nav-item"><a href="/customers"><strong>Customers</strong></a></div>
+        <div class="nav-item active"><a href="/employees"><strong>Employees</strong></a></div>
+    </nav>
+    <input id="hidden-buffer" type="hidden" value="{{ data }}">
+    <input id="id-buffer" type="hidden" value="{{ id }}">
+    <div id="edit-modal">
+        <section id="heading-section"><h1></h1></section>
+        <section id="edit-section">
+            <div>
+                <h3>First Name</h3>
+                <input type="text" id="first-name">
+            </div>
+            <div>
+                <h3>Last Name</h3>
+                <input type="text" id="last-name">
+            </div>
+            <div>
+                 <span>
+                    <h3>Hire Date</h3>
+                    <h5>Format MM-DD-YYY</h5>
+                </span>
+                <input type="text" id="hire-date">
+            </div>
+            <div>
+                <h3>Sales to Date</h3>
+                <input type="text" id="sales">
+            </div>
+            <div>
+                <span>
+                    <h3>Phone</h3>
+                    <h5>Format ###-###-####</h5>
+                </span>
+                <input type="text" id="phone">
+            </div>
+            <div>
+                <h3>Commission</h3>
+                <input type="text" id="commission">
+            </div>
+            <button id="save-changes" onClick="saveChanges()">Save Changes</button>
+            <h3 id="success">Changes successful!</h3>
+            <h3 id="failure">Failed to save changes!</h3>
+        </section>
+    </div>
+</body>
+<script src="./js/employees_edit.js"></script>
+</html>

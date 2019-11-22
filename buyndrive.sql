@@ -12,7 +12,7 @@ CREATE TABLE `employees`(
     `LastName` varchar(24)  CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
     `HireDate` datetime NOT NULL,
     `SalesToDate` double unsigned NOT NULL DEFAULT 0.0,
-    `Phone` varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci,
+    `Phone` varchar(12) CHARACTER SET utf8 COLLATE utf8_unicode_ci,
     `Commission` double unsigned NOT NULL DEFAULT 0.0,
     PRIMARY KEY (`EmployeeID`),
     KEY `key_employees_lastname` (`LastName`)

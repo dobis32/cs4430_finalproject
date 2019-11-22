@@ -18,6 +18,7 @@
   "homepage": "https://github.com/dobis32/cs4430_finalproject#readme",
   "dependencies": {
     "express": "^4.17.1",
+    "hbs": "^4.0.6",
     "mysql": "github:mysqljs/mysql"
   }
 }
