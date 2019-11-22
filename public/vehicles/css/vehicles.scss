@@ -1,6 +1,19 @@
 * {
     font-family: 'Roboto', Arial, Helvetica, sans-serif;
 }
+#success, #failure {
+    display: none;
+    width: 100%;
+    text-align: center;
+}
+
+#success {
+    color: #090;
+}
+
+#failure {
+    color: #900;
+}
 body {
     margin: 0;
     padding: 0;
@@ -12,7 +25,7 @@ body {
         .nav-item {
             text-align: center;
             align-content: center;
-            width: 8vw;
+            padding: 0px 16px;
             a {
                 display: inline-block;
                 margin: 1vw 0;
@@ -23,6 +36,47 @@ body {
             }
                 
         }
+    }
+    #edit-modal {
+        width: 98%;
+        max-width: 500px;
+        min-height: 90vh;
+        margin: 2vh auto 0px auto;
+        background: #f9f1f1;
+        #heading-section{
+            width: 100%;
+            h1{        
+                width: 100%;
+                padding-top: 5vw;
+                text-align: center;
+            }
+        }
+        #edit-section{
+            width: 400px;
+            height: 650px;
+            margin: 0 auto;
+            padding-top: 60px;
+            display: flex;
+            flex-direction: column;
+            align-content: center;
+            div {
+                span{
+                    display:flex;
+                    h5 {
+                        margin-left: 20px;
+                        color: #f00;
+                    }
+                }
+                input {
+                    width: 100%;
+                } 
+            }
+            button {
+                display: block;
+                margin: 20px auto 0px auto;
+            }
+        }
+        
     }
     #records-modal{
         width: 98%;
@@ -51,6 +105,10 @@ body {
             tr{
                 width: 100%;
                 border: 1px solid #000;
+                background: #66c3d9;
+                &:nth-child(even){
+                    background: #b1dce6;
+                }
             }
             td, th{
                 width: 8%;
@@ -60,6 +118,9 @@ body {
                     height: 100%;
                     width: 80%;
                 }
+            }
+            th {
+                background: #f9f1f1;
             }
             .id{
                 width: 3%;

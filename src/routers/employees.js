@@ -9,7 +9,6 @@ router.get('/employees', async (req, res) => {
     dbconnection.query('SELECT * FROM employees', (error, results, fields) => {
         if (error) throw error;
         let data = [];
-        console.log(results)
         results.forEach(record =>{
             data.push(record)
         })

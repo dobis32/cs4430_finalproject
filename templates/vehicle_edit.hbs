@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" type="text/css" href="css/vehicles.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+    <title>Document</title>
+</head>
+<body>
+    <nav>
+        <div class="nav-item"><a href="/sales"><strong>Sales</strong></a></div>
+        <div class="nav-item active"><a href="/vehicles"><strong>Vehicles</strong></a></div>
+        <div class="nav-item"><a href="/customers"><strong>Customers</strong></a></div>
+        <div class="nav-item"><a href="/employees"><strong>Employees</strong></a></div>
+    </nav>
+    <input id="hidden-buffer" type="hidden" value="{{ data }}">
+    <input id="id-buffer" type="hidden" value="{{ id }}">
+    <div id="edit-modal">
+        <section id="heading-section"><h1></h1></section>
+        <section id="edit-section">
+            <div>
+                <h3>Make</h3>
+                <input type="text" id="make">
+            </div>
+            <div>
+                <h3>Model</h3>
+                <input type="text" id="model">
+            </div>
+            <div>
+                <h3>Year</h3>
+                <input type="text" id="year">
+            </div>
+            <div>
+                <h3>Color</h3>
+                <input type="text" id="color">
+            </div>
+            <div>
+                <h3>Price</h3>
+                <input type="text" id="price">
+            </div>
+            <button id="save-changes" onClick="saveChanges()">Save Changes</button>
+            <h3 id="success">Changes successful!</h3>
+            <h3 id="failure">Failed to save changes!</h3>
+        </section>
+    </div>
+</body>
+<script src="js/vehicles_edit.js"></script>
+</html>

@@ -60,9 +60,10 @@ async function postData(url, data) {
   }
 
 const saveChanges = async function() {
-    const firstName = document.querySelector('#first-name').value;
-    const lastName = document.querySelector('#last-name').value;
-    const hireDateTokenBuffer = document.querySelector('#hire-date').value.split('-')
+    const firstName = document.querySelector('#first-name').value.toUpperCase();
+    const lastName = document.querySelector('#last-name').value.toUpperCase();
+    const dateTimeBuffer = document.querySelector('#hire-date').value.split('T');
+    const hireDateTokenBuffer = dateTimeBuffer[0].split('-');
     const hireDateBuffer = JSON.stringify(new Date(hireDateTokenBuffer[2], parseInt(hireDateTokenBuffer[0]) - 1, hireDateTokenBuffer[1])).replace('"', '').replace('"', '');
     const hireDate = `${hireDateBuffer.split('T')[0]} ${hireDateBuffer.split('T')[1].replace('Z', '')}`
     const salesToDate = parseFloat(document.querySelector('#sales').value).toFixed(2);
@@ -73,7 +74,8 @@ const saveChanges = async function() {
         try {
             document.querySelector('#success').style.display = 'none';
             document.querySelector('#failure').style.display = 'none';
-            const data = await postData('/employees/save', {firstName, lastName, hireDate, salesToDate, phone, commission})
+            const id = parseInt(document.querySelector('#id-buffer').value);
+            const data = await postData('/employees/save', {id, firstName, lastName, hireDate, salesToDate, phone, commission})
             if(data.status){
                 document.querySelector('#success').style.display = 'block'
             }
@@ -96,16 +98,17 @@ try{
         const data = JSON.parse(document.querySelector('#hidden-buffer').value);
         document.querySelector('#first-name').value = data.FirstName;
         document.querySelector('#last-name').value = data.LastName;
-        document.querySelector('#hire-date').value = data.HireDate
-        document.querySelector('#sales').value = data.SalesToDate.toFied(2)
+        const dateTimeBuffer = data.HireDate
+        document.querySelector('#hire-date').value = dateTimeBuffer.split('T')[0];
+        document.querySelector('#sales').value = data.SalesToDate.toFixed(2)
         document.querySelector('#phone').value = data.Phone;
-        document.querySelector('#commision').value = data.hireDate.toFixed(2)
+        document.querySelector('#commission').value = data.Commission.toFixed(2)
     }
     else {
         document.querySelector('#heading-section h1').innerHTML = 'Create Employee Record'
         document.querySelector('#save-changes').innerHTML = 'Create Record'
     }
 }
-catch{
-    location.href='/employyes'
+catch (error){
+    location.href='/employees'
 }

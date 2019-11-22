@@ -43,15 +43,16 @@ async function postData(url, data) {
   }
 
 const saveChanges = async function() {
-    const firstName = document.querySelector('#first-name').value;
-    const lastName = document.querySelector('#last-name').value;
+    const firstName = document.querySelector('#first-name').value.toUpperCase();
+    const lastName = document.querySelector('#last-name').value.toUpperCase();
     const phone = document.querySelector('#phone').value;
     const valid = validData(firstName, lastName, phone);
     if (valid) {
         try {
             document.querySelector('#success').style.display = 'none';
             document.querySelector('#failure').style.display = 'none';
-            const data = await postData('/customers/save', {firstName, lastName, phone})
+            const id = parseInt(document.querySelector('#id-buffer').value);
+            const data = await postData('/customers/save', {id, firstName, lastName, phone})
             if(data.status){
                 document.querySelector('#success').style.display = 'block'
             }
@@ -70,15 +71,15 @@ const saveChanges = async function() {
 try{
     const id = parseInt(document.querySelector('#id-buffer').value);
     if (id > 0) {
-        document.querySelector('#heading-section h1').innerHTML = 'Edit Customer Info'
+        document.querySelector('#heading-section h1').innerHTML = 'Edit Customer Info';
         const data = JSON.parse(document.querySelector('#hidden-buffer').value);
         document.querySelector('#first-name').value = data.FirstName;
         document.querySelector('#last-name').value = data.LastName;
         document.querySelector('#phone').value = data.Phone;
     }
     else {
-        document.querySelector('#heading-section h1').innerHTML = 'Create Customer Record'
-        document.querySelector('#save-changes').innerHTML = 'Create Record'
+        document.querySelector('#heading-section h1').innerHTML = 'Create Customer Record';
+        document.querySelector('#save-changes').innerHTML = 'Create Record';
     }
 }
 catch{

@@ -144,6 +144,10 @@ body #records-modal #records-list tr:nth-child(even) {
   background: #b1dce6;
 }
 
+body #records-modal #records-list th {
+  background: #f9f1f1;
+}
+
 body #records-modal #records-list td, body #records-modal #records-list th {
   width: 8%;
   height: 1.5em;
