@@ -66,9 +66,9 @@ body #edit-modal #heading-section h1 {
 
 body #edit-modal #edit-section {
   width: 400px;
-  height: 500px;
+  height: 650px;
   margin: 0 auto;
-  padding-top: 100px;
+  padding-top: 60px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -125,7 +125,7 @@ body #records-modal #records-controls h1 {
 
 body #records-modal #records-controls div button {
   display: block;
-  min-width: 60px;
+  min-width: 100px;
   height: 30px;
 }
 
@@ -134,32 +134,32 @@ body #records-modal #records-list {
   margin: 0 auto;
 }
 
-body #records-modal #records-list tr {
+body #records-modal tr {
   width: 100%;
   border: 1px solid #000;
   background: #66c3d9;
 }
 
-body #records-modal #records-list tr:nth-child(even) {
+body #records-modal tr:nth-child(even) {
   background: #b1dce6;
 }
 
-body #records-modal #records-list th {
-  background: #f9f1f1;
-}
-
-body #records-modal #records-list tr td, body #records-modal #records-list tr th {
+body #records-modal tr td, body #records-modal tr th {
   width: 8%;
   height: 1.5em;
   text-align: center;
 }
 
-body #records-modal #records-list tr td button, body #records-modal #records-list tr th button {
+body #records-modal tr td button, body #records-modal tr th button {
   height: 100%;
-  width: 40%;
+  width: 80%;
 }
 
-body #records-modal #records-list .id {
+body #records-modal tr th {
+  background: #f9f1f1;
+}
+
+body #records-modal tr th .id {
   width: 3%;
 }
-/*# sourceMappingURL=customers.css.map */
+/*# sourceMappingURL=sales.css.map */

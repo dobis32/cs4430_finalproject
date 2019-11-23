@@ -9,7 +9,6 @@ router.get('/vehicles', async (req, res) => {
     dbconnection.query('SELECT * FROM vehicles', (error, results, fields) => {
         if (error) throw error;
         let data = [];
-        console.log(results)
         results.forEach(record =>{
             data.push(record)
         })
@@ -43,7 +42,6 @@ router.get('/vehicles/edit', async (req, res) => {
 });
 
 router.post('/vehicles/save', async (req, res) => {
-    console.log(req.body)
     try{
         if(req.body.id > 0){
             dbconnection.query(`UPDATE vehicles SET Make = '${req.body.make}', Model = '${req.body.model}', Year = '${req.body.year}', Color = '${req.body.color}', Price = '${req.body.price}' WHERE VehicleID = '${req.body.id}'`, (error, results, fields) => {
@@ -62,5 +60,44 @@ router.post('/vehicles/save', async (req, res) => {
     }
     
 });
+
+router.post('/vehicles/remove', async (req, res) => {
+    const id = req.body.id;
+    if(id && id > 0){
+        dbconnection.beginTransaction((error) => {
+            const failureResponse = () => {
+                res.send({ status: false, message: 'Something failed!'})
+            }
+            if (error) {
+                dbconnection.rollback(failureResponse());
+            }
+            dbconnection.query(`UPDATE sales SET VehicleID = NULL WHERE VehicleID = ${req.body.id}`, (error, results, fields) => {
+                if (error) {
+                    dbconnection.rollback(failureResponse());
+                }
+                else {
+                    dbconnection.query(`DELETE FROM vehicles WHERE VehicleID = ${req.body.id}`, (error, results, fields) => {
+                        if (error) {
+                            console.log('[ERROR]', error);
+                            dbconnection.rollback(failureResponse());
+                        } else {
+                            dbconnection.commit((error) => {
+                                if (error) {
+                                    dbconnection.rollback(failureResponse);
+                                }
+                                else {
+                                    res.send({ status: true, message: 'Record removed!' });
+                                }
+                            });
+                        }
+                    });
+                }
+            });
+        });
+    }
+    else {
+        res.status(404).send({status: false})
+    }
+})
 
 module.exports = router;

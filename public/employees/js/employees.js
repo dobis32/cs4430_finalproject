@@ -52,8 +52,7 @@ var inflateEmployeeRecord = function(recordData){
     removeButton.addEventListener('click', async event => {
         let confirmed = confirm('Are you sure you want to delete this record?');
         if (confirmed) {
-            let result = await postData(`/sales/edit`, { query: `UPDATE sales SET CustomerID = NULL WHERE EmployeeID = ${recordData.EmployeeID}` });
-            if (result.status) result = await postData(`/employees/remove`, { id: recordData.EmployeeID });
+            let result = await postData(`/employees/remove`, { id: recordData.EmployeeID });
             if (result.status) {
                 alert('Record removed successfully!');
                 location.href = '/employees';

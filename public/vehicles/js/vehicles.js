@@ -29,6 +29,9 @@ var inflateEmployeeRecord = function(recordData){
     // Edit
     const editTD = document.createElement('td');
     const editButton = document.createElement('button');
+    editButton.addEventListener('click', event => {
+        location.href = `/vehicles/edit?id=${recordData.VehicleID}`
+    });
     editButton.innerHTML = 'Edit';
     editButton.classList.add('editButton')
     editTD.appendChild(editButton)
@@ -36,6 +39,20 @@ var inflateEmployeeRecord = function(recordData){
     // Remove
     const removeTD = document.createElement('td');
     const removeButton = document.createElement('button');
+    removeButton.addEventListener('click', async event => {
+        let confirmed = confirm('Are you sure you want to delete this record?');
+        if (confirmed) {
+            let result = await postData(`/vehicles/remove`, { id: recordData.VehicleID });
+            console.log(result)
+            if (result.status) {
+                alert('Record removed successfully!');
+                location.href = '/vehicles';
+            } else {
+                alert('Record removal failed!');
+            }
+            
+        }
+    });
     removeButton.innerHTML = 'Remove';
     removeButton.classList.add('removeButton')
     removeTD.appendChild(removeButton)
@@ -43,6 +60,23 @@ var inflateEmployeeRecord = function(recordData){
 
     return recordDiv;
 }
+
+const postData = async function(url, data) {
+    const response = await fetch(url, {
+      method: 'POST', 
+      mode: 'cors', 
+      cache: 'no-cache', 
+      credentials: 'same-origin',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      redirect: 'follow', 
+      referrer: 'no-referrer', 
+      body: JSON.stringify(data) 
+    });
+    return await response.json();
+}
+
 const recordsData = JSON.parse(document.querySelector('#hidden-buffer').value);
 const recordsList = document.querySelector('#records-list')
 for(let i = 0; i < recordsData.length; i++){

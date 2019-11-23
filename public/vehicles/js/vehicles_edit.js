@@ -16,19 +16,14 @@ const validData = function(make, model, year, color, price) {
     }
     let parsedBuffer = parseFloat(make);
     if (parsedBuffer > 0 || parsedBuffer <= 0){
-        console.log('foo')
         isValid = false;
     }
     parsedBuffer = parseFloat(model);
     if (parsedBuffer > 0 || parsedBuffer <= 0){
-        console.log('foo')
-
         isValid = false;
     }
     parsedBuffer = parseFloat(color);
     if (parsedBuffer > 0 || parsedBuffer <= 0){
-        console.log(parsedBuffer)
-
         isValid = false;
     }          
     return isValid;
@@ -88,7 +83,6 @@ try{
         document.querySelector('#year').value = data.Year;
         document.querySelector('#color').value = data.Color.toUpperCase();
         document.querySelector('#price').value = data.Price;
-        document.querySelector('#commission').value = data.Commission.toFixed(2)
     }
     else {
         document.querySelector('#heading-section h1').innerHTML = 'Create Vehicle Record'
@@ -96,5 +90,6 @@ try{
     }
 }
 catch (error){
-    location.href='/employees'
+    alert(error)
+    location.href='/vehicles'
 }

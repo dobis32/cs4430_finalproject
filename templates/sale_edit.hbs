@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" type="text/css" href="css/sales.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+    <title>Document</title>
+</head>
+<body>
+    <nav>
+        <div class="nav-item"><a href="/sales"><strong>Sales</strong></a></div>
+        <div class="nav-item"><a href="/vehicles"><strong>Vehicles</strong></a></div>
+        <div class="nav-item"><a href="/customers"><strong>Customers</strong></a></div>
+        <div class="nav-item active"><a href="/employees"><strong>Employees</strong></a></div>
+    </nav>
+    <input id="hidden-buffer" type="hidden" value="{{ data }}">
+    <input id="id-buffer" type="hidden" value="{{ id }}">
+    <div id="edit-modal">
+        <section id="heading-section"><h1></h1></section>
+        <section id="edit-section">
+            <div>
+                <h3>Employee ID</h3>
+                <input type="text" id="employee-id">
+            </div>
+            <div>
+                <h3>Customer ID</h3>
+                <input type="text" id="customer-id">
+            </div>
+            <div>
+                <h3>Vehicle ID</h3>
+                <input type="text" id="vehicle-id">
+            </div>
+            <div>
+                <h3>Sub total</h3>
+                <input type="text" id="subtotal">
+            </div>
+            <div>
+                <h3>Commission</h3>
+                <input type="text" id="commission">
+            </div>
+            <div>
+                <h3>Net total</h3>
+                <input type="text" id="nettotal">
+            </div>
+            <button id="save-changes" onClick="saveChanges()">Save Changes</button>
+            <h3 id="success">Changes successful!</h3>
+            <h3 id="failure">Failed to save changes!</h3>
+        </section>
+    </div>
+</body>
+<script src="./js/sales_edit.js"></script>
+</html>

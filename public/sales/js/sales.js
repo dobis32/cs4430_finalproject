@@ -4,22 +4,22 @@ var inflateEmployeeRecord = function(recordData){
     // ID
     const id = document.createElement('td');
     id.classList.add('id')
-    id.innerHTML = recordData.SaleID;
+    id.innerHTML = recordData.SaleID ? recordData.SaleID : 'NULL' ;
     recordDiv.appendChild(id);
     // Employee ID
     const eid = document.createElement('td');
     id.classList.add('id')
-    eid.innerHTML = recordData.EmployeeID;
+    eid.innerHTML = recordData.EmployeeID ? recordData.EmployeeID : 'NULL';
     recordDiv.appendChild(eid);
     // Customer ID
     const cid = document.createElement('td');
     id.classList.add('id')
-    cid.innerHTML = recordData.Customer;
+    cid.innerHTML = recordData.CustomerID ? recordData.CustomerID : 'NULL';
     recordDiv.appendChild(cid);
     // Vehicle ID
     const vid = document.createElement('td');
     id.classList.add('id')
-    vid.innerHTML = recordData.VehicleID
+    vid.innerHTML = recordData.VehicleID ? recordData.VehicleID : 'NULL';
     recordDiv.appendChild(vid);
     // Subtotal
     const salesToDate = document.createElement('td');

@@ -34,7 +34,7 @@ body nav .nav-item {
   text-align: center;
   -ms-flex-line-pack: center;
       align-content: center;
-  width: 8vw;
+  padding: 0px 16px;
 }
 
 body nav .nav-item a {

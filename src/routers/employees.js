@@ -18,26 +18,28 @@ router.get('/employees', async (req, res) => {
 });
 
 router.get('/employees/edit', async (req, res) => {
-    let id = req.query.id
-    if(id){
+    if(req.query.id){
+        let id = req.query.id;
         let employee = {}
         if (id > 0) {
             let data;
             dbconnection.query(`SELECT * FROM employees WHERE EmployeeID = ${id}`, (error, results, fields) => {
-                if (error) throw error;
+                if (error) {
+                    console.log('[ERROR]', error);
+                }
                 let data = [];
                 results.forEach(record =>{
-                    data.push(record)
+                    data.push(record);
                 });
                 employee = data[0]
-                res.render('employee_edit', { data: JSON.stringify(employee) , id: JSON.stringify(employee.EmployeeID)})
-            })
+                res.render('employee_edit', { data: JSON.stringify(employee) , id: JSON.stringify(employee.EmployeeID)});
+            });
         } else {
-            res.render('employee_edit', { data: JSON.stringify(employee) , id: JSON.stringify(id)})
+            res.render('employee_edit', { data: JSON.stringify(employee) , id: JSON.stringify(id)});
         }
     }
     else {
-        res.redirect('/customers')
+        res.redirect('/customers');
     }
 });
 

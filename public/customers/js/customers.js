@@ -34,8 +34,7 @@ var inflateEmployeeRecord = function(recordData){
     removeButton.addEventListener('click', async (event) => {
         let confirmed = confirm('Are you sure you want to delete this record?');
         if (confirmed) {
-            let result = await postData(`/sales/edit`, { query: `UPDATE sales SET CustomerID = NULL WHERE CustomerID = ${recordData.CustomerID}` });
-            if (result.status) result = await postData(`/customers/remove`, { id: recordData.CustomerID });
+            let result = await postData(`/customers/remove`, { id: recordData.CustomerID });
             if (result.status) {
                 alert('Record removed successfully!');
                 location.href = '/customers';
@@ -65,7 +64,7 @@ const postData = async function(url, data) {
       body: JSON.stringify(data) 
     });
     return await response.json();
-  }
+}
 
 const recordsData = JSON.parse(document.querySelector('#hidden-buffer').value);
 const recordsList = document.querySelector('#records-list')
