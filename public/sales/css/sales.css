@@ -91,6 +91,11 @@ body #edit-modal #edit-section div span h5 {
   color: #f00;
 }
 
+body #edit-modal #edit-section div span .data {
+  margin-left: 20px;
+  color: #090;
+}
+
 body #edit-modal #edit-section div input {
   width: 100%;
 }

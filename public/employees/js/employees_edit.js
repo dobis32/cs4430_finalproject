@@ -65,7 +65,8 @@ const saveChanges = async function() {
     const dateTimeBuffer = document.querySelector('#hire-date').value.split('T');
     const hireDateTokenBuffer = dateTimeBuffer[0].split('-');
     const hireDateBuffer = JSON.stringify(new Date(hireDateTokenBuffer[2], parseInt(hireDateTokenBuffer[0]) - 1, hireDateTokenBuffer[1])).replace('"', '').replace('"', '');
-    const hireDate = `${hireDateBuffer.split('T')[0]} ${hireDateBuffer.split('T')[1].replace('Z', '')}`
+    console.log(hireDateBuffer.split('T'))
+    const hireDate = `${hireDateBuffer.replace('T', ' ').replace('Z','')}`
     const salesToDate = parseFloat(document.querySelector('#sales').value).toFixed(2);
     const phone = document.querySelector('#phone').value;
     const commission = parseFloat(document.querySelector('#commission').value).toFixed(2);

@@ -37,19 +37,29 @@ router.get('/sales/edit', async (req, res) => {
         } else {
             res.render('sale_edit', { data: JSON.stringify(sale), id: JSON.stringify(id) });
         }
-        
+    } else {
+        res.redirect('/sales');
     }
-    let data;
-    dbconnection.query('SELECT * FROM sales', (error, results, fields) => {
-        if (error) {
-            console.log('[ERROR]', error)
+});
+
+router.post('/sales/save', async (req, res) => {
+    try{
+        if(req.body.id > 0){
+            dbconnection.query(`UPDATE sales SET EmployeeID = '${req.body.eid}', CustomerID = '${req.body.cid}', VehicleID = ${req.body.vid}, SubTotal = '${req.body.subtotal}', Commission = ${req.body.commission} WHERE SaleID = '${req.body.id}'`, (error, results, fields) => {
+                if (error)  console.log(error);
+                res.status(201).send({status: true})
+            });
+        } else {
+            dbconnection.query(`INSERT INTO sales (EmployeeID, CustomerID, VehicleID, SubTotal, Commission) VALUES ('${req.body.eid}', '${req.body.cid}', '${req.body.vid}', ${req.body.subtotal}, ${req.body.commission})`, (error, results, fields) => {
+                if (error) throw error;
+                res.status(201).send({status: true})
+            });
         }
-        let data = [];
-        results.forEach(record =>{
-            data.push(record)
-        });
-        res.render('sales', { data: JSON.stringify(data) });
-    })
+        
+    } catch (error) {
+        res.status(500).send({status: false})
+    }
+    
 });
 
 router.post('/sales/edit', async (req, res) => {

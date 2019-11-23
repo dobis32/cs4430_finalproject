@@ -5,16 +5,31 @@ const dbconnection = db();
 const router = new express.Router();
 
 router.get('/employees', async (req, res) => {
-    let data;
-    dbconnection.query('SELECT * FROM employees', (error, results, fields) => {
-        if (error) throw error;
-        let data = [];
-        results.forEach(record =>{
-            data.push(record)
+    if(req.query.id){
+        let data;
+        dbconnection.query(`SELECT * FROM employees WHERE EmployeeID = ${req.query.id}`, (error, results, fields) => {
+            if (error) throw error;
+            let data = [];
+            results.forEach(record =>{
+                data.push(record)
+            })
+            if (data.length > 0) {
+                res.send({ data: JSON.stringify(data), status: true });
+            } else {
+                res.send({ status: false });
+            }
         })
-        res.render('employees', { data: JSON.stringify(data) });
-    })
-    
+    } else {
+        let data;
+        dbconnection.query('SELECT * FROM employees', (error, results, fields) => {
+            if (error) throw error;
+            let data = [];
+            results.forEach(record =>{
+                data.push(record)
+            })
+            res.render('employees', { data: JSON.stringify(data) });
+        })
+    }
 });
 
 router.get('/employees/edit', async (req, res) => {

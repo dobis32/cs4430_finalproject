@@ -5,16 +5,42 @@ const dbconnection = db();
 const router = new express.Router();
 
 router.get('/vehicles', async (req, res) => {
-    let data;
-    dbconnection.query('SELECT * FROM vehicles', (error, results, fields) => {
-        if (error) throw error;
-        let data = [];
-        results.forEach(record =>{
-            data.push(record)
+    if(req.query.id){
+        let data;
+        dbconnection.query(`SELECT * FROM vehicles WHERE VehicleID = ${req.query.id}`, (error, results, fields) => {
+            if (error) throw error;
+            let data = [];
+            results.forEach(record =>{
+                data.push(record);
+            })
+            if (data.length > 0) {
+                dbconnection.query(`SELECT * FROM sales WHERE VehicleID = ${req.query.id}`, (error, results, fields) => {
+                    if (error) throw error;
+                    let buffer = [];
+                    results.forEach(record =>{
+                        buffer.push(record);
+                    })
+                    if (buffer.length == 0) {
+                        res.send({ data: JSON.stringify(data), status: true });
+                    } else {
+                        res.send({ status: false, message:'Vehicle with that ID has already been sold!' });
+                    }
+                });
+            } else {
+                res.send({ status: false, message:'No vehicle with that ID found!'});
+            }
         })
-        res.render('vehicles', { data: JSON.stringify(data) });
-    })
-    
+    } else {
+        let data;
+        dbconnection.query('SELECT * FROM vehicles', (error, results, fields) => {
+            if (error) throw error;
+            let data = [];
+            results.forEach(record =>{
+                data.push(record);
+            })
+            res.render('vehicles', { data: JSON.stringify(data) });
+        });
+    }
 });
 
 router.get('/vehicles/edit', async (req, res) => {

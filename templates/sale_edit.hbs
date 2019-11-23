@@ -21,28 +21,49 @@
         <section id="heading-section"><h1></h1></section>
         <section id="edit-section">
             <div>
-                <h3>Employee ID</h3>
-                <input type="text" id="employee-id">
+                <span>
+                    <h3>Employee ID</h3>
+                    <h5>Must be a valid employee ID</h5>
+                </span>
+                <div class="io">
+                    <input type="text" id="employee-id"><button id="eid-check" onClick="checkEmployeeID()">Check</button>
+                </div>
             </div>
             <div>
-                <h3>Customer ID</h3>
-                <input type="text" id="customer-id">
+                <span>
+                    <h3>Customer ID</h3>
+                    <h5>Must be a valid customer ID</h5>
+                </span>
+                <div class="io">
+                    <input type="text" id="customer-id"><button id="cid-check" onClick="checkCustomerID()">Check</button>
+                </div>
             </div>
             <div>
-                <h3>Vehicle ID</h3>
-                <input type="text" id="vehicle-id">
+                <span>
+                    <h3>Vehicle ID</h3>
+                    <h5>Must be a valid vehicle ID</h5>
+                </span>
+                <div class="io">
+                    <input type="text" id="vehicle-id"><button id="vid-check" onClick="checkVehicleID()">Check</button>
+                </div>
             </div>
             <div>
-                <h3>Sub total</h3>
-                <input type="text" id="subtotal">
+                <span>
+                    <h3>Sub total:</h3>
+                    <h4 class="data" id="subtotal"></h4>
+                </span>
             </div>
             <div>
-                <h3>Commission</h3>
-                <input type="text" id="commission">
+                <span>
+                    <h3>Commission:</h3>
+                    <h4 class="data" id="commission"></h4>
+                </span>
             </div>
             <div>
-                <h3>Net total</h3>
-                <input type="text" id="nettotal">
+                <span>
+                    <h3>Net total:</h3>
+                    <h4 class="data" id="nettotal"></h4>
+                </span>
             </div>
             <button id="save-changes" onClick="saveChanges()">Save Changes</button>
             <h3 id="success">Changes successful!</h3>
