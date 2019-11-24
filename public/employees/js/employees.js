@@ -30,7 +30,7 @@ var inflateEmployeeRecord = function(recordData){
     hireDate.innerHTML = recordData.HireDate.split('T')[0];
     recordDiv.appendChild(hireDate);
     const salesToDate = document.createElement('td');
-    salesToDate.innerHTML = recordData.SalesToDate.toFixed(2);
+    salesToDate.innerHTML = recordData.allSales.toFixed(2);
     recordDiv.appendChild(salesToDate);
     const phone = document.createElement('td');
     phone.innerHTML = recordData.Phone;
@@ -71,6 +71,7 @@ var inflateEmployeeRecord = function(recordData){
 }
 const recordsData = JSON.parse(document.querySelector('#hidden-buffer').value);
 const recordsList = document.querySelector('#records-list')
+console.log(recordsData)
 for(let i = 0; i < recordsData.length; i++){
     recordsList.appendChild(inflateEmployeeRecord(recordsData[i]))
 

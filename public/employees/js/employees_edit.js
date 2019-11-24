@@ -101,7 +101,7 @@ try{
         document.querySelector('#last-name').value = data.LastName;
         const dateTimeBuffer = data.HireDate
         document.querySelector('#hire-date').value = dateTimeBuffer.split('T')[0];
-        document.querySelector('#sales').value = data.SalesToDate.toFixed(2)
+        document.querySelector('#sales').innerHTML = data.allSales.toFixed(2)
         document.querySelector('#phone').value = data.Phone;
         document.querySelector('#commission').value = data.Commission.toFixed(2)
     }

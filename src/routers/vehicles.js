@@ -49,7 +49,7 @@ router.get('/vehicles/edit', async (req, res) => {
         let vehicle = {}
         if (id > 0) {
             let data;
-            dbconnection.query(`SELECT * FROM vehicles WHERE VehicleID = ${id}`, (error, results, fields) => {
+            dbconnection.query(`SELECT * FROM (SELECT COUNT(SubTotal) AS sold FROM sales WHERE VehicleID = ${req.query.id}) AS blank, vehicles WHERE VehicleID = ${id}`, (error, results, fields) => {
                 if (error) throw error;
                 let data = [];
                 results.forEach(record =>{

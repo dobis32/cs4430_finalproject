@@ -78,11 +78,14 @@ try{
     if (id > 0) {
         document.querySelector('#heading-section h1').innerHTML = 'Edit Vehicle Info'
         const data = JSON.parse(document.querySelector('#hidden-buffer').value);
+        const price = parseFloat(data.Price).toFixed(2);
         document.querySelector('#make').value = data.Make.toUpperCase();
         document.querySelector('#model').value = data.Model.toUpperCase();
         document.querySelector('#year').value = data.Year;
         document.querySelector('#color').value = data.Color.toUpperCase();
-        document.querySelector('#price').value = data.Price;
+        document.querySelector('#price').value = price;
+        document.querySelector('#price').disabled = data.sold > 0 ? true : false;
+        document.querySelector('#sold').style.display = data.sold > 0 ?  'block' : 'none';
     }
     else {
         document.querySelector('#heading-section h1').innerHTML = 'Create Vehicle Record'

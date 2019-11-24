@@ -6,8 +6,8 @@ const router = new express.Router();
 
 router.get('/employees', async (req, res) => {
     if(req.query.id){
-        let data;
-        dbconnection.query(`SELECT * FROM employees WHERE EmployeeID = ${req.query.id}`, (error, results, fields) => {
+        let data;        
+        dbconnection.query(`SELECT * FROM employees WHERE employees.EmployeeID = ${req.query.id};`, (error, results, fields) => {
             if (error) throw error;
             let data = [];
             results.forEach(record =>{
@@ -20,15 +20,51 @@ router.get('/employees', async (req, res) => {
             }
         })
     } else {
-        let data;
-        dbconnection.query('SELECT * FROM employees', (error, results, fields) => {
-            if (error) throw error;
-            let data = [];
-            results.forEach(record =>{
-                data.push(record)
-            })
-            res.render('employees', { data: JSON.stringify(data) });
-        })
+        let data = [];
+        let sales = [];
+        dbconnection.beginTransaction((error) => {
+            const failureResponse = () => {
+                res.send({ status: false, message: 'Something failed!'})
+            }
+            if (error) {
+                dbconnection.rollback(failureResponse());
+            } else {
+                dbconnection.query(`SELECT EmployeeID, SUM(SubTotal) AS s1 FROM sales GROUP BY EmployeeID`, (error, results, fields) => {
+                    if (error) {
+                        dbconnection.rollback(failureResponse());
+                    } else {
+                        results.forEach(record => {
+                            sales.push(record)
+                        });
+                        dbconnection.query(`SELECT * FROM employees`, (error, results, fields) => {
+                            if (error) {
+                                console.log('[ERROR]', error);
+                                dbconnection.rollback(failureResponse());
+                            } else {
+                                results.forEach(record => {
+                                    record.allSales = 0;
+                                    data.push(record)
+                                });
+                                dbconnection.commit((error) => {
+                                    if (error) {
+                                        dbconnection.rollback(failureResponse);
+                                    }
+                                    else {
+                                        for(let i = 0; i < sales.length; i++) {
+                                            let eid = sales[i].EmployeeID;
+                                            if(sales[i].EmployeeID == data[eid - 1].EmployeeID){
+                                                data[eid - 1].allSales = sales[i].s1
+                                            }
+                                        }
+                                        res.render('employees', { data: JSON.stringify(data) });
+                                    } 
+                                }); 
+                            }
+                        });
+                    }
+                });
+            }
+        });
     }
 });
 
@@ -38,7 +74,7 @@ router.get('/employees/edit', async (req, res) => {
         let employee = {}
         if (id > 0) {
             let data;
-            dbconnection.query(`SELECT * FROM employees WHERE EmployeeID = ${id}`, (error, results, fields) => {
+            dbconnection.query(`SELECT * FROM employees, (SELECT EmployeeID, SUM(SubTotal) AS allSales FROM sales GROUP BY EmployeeID) AS s1 WHERE employees.EmployeeID = ${req.query.id} AND employees.EmployeeID = s1.EmployeeID;`, (error, results, fields) => {
                 if (error) {
                     console.log('[ERROR]', error);
                 }
@@ -115,6 +151,6 @@ router.post('/employees/remove', async (req, res) => {
     else {
         res.status(404).send({status: false})
     }
-})
+});
 
 module.exports = router;

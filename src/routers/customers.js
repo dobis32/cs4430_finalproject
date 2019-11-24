@@ -13,7 +13,6 @@ router.get('/customers', async (req, res) => {
             results.forEach(record =>{
                 data.push(record);
             })
-            console.log(data)
             if (data.length > 0) {
                 res.send({ data: JSON.stringify(data), status: true });
             } else {

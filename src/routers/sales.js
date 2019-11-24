@@ -89,4 +89,23 @@ router.post('/sales/edit', async (req, res) => {
     }
 });
 
+router.post('/sales/remove', async (req, res) => {
+    const id = req.body.id;
+    if(id && id > 0){
+        dbconnection.query(`DELETE FROM sales WHERE SaleID = ${id}`, (error, results, fields) => {
+            if (error) {
+                console.log('[ERROR]', error);
+                dbconnection.rollback(() => {
+                    res.send({ status: false, message: 'Something failed!'})
+                });
+            } else {
+                res.send({ status: true, message: 'Record removed!' });
+            }
+        });
+    }
+    else {
+        res.status(404).send({status: false})
+    }
+});
+
 module.exports = router;

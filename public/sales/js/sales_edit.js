@@ -79,7 +79,11 @@ const checkCustomerID = async function() {
     }
     if (isValid){
         try {
-            const id = parseInt(document.querySelector('#id-buffer').value);
+            let id = document.querySelector('#id-buffer').value;
+            let buffer = id.split('-');
+            if (buffer.length > 1) {
+                id = parseInt(buffer[1]) * -1;
+            }
             if (id < 0) {
                 document.querySelector('#vehicle-id').disabled = false;
                 document.querySelector('#vid-check').disabled = false;

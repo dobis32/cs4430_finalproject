@@ -24,7 +24,8 @@ var inflateEmployeeRecord = function(recordData){
     recordDiv.appendChild(color);
     // Price
     const price = document.createElement('td');
-    price.innerHTML = recordData.Price;
+    const buffer = parseFloat(recordData.Price).toFixed(2);
+    price.innerHTML = buffer;
     recordDiv.appendChild(price);
     // Edit
     const editTD = document.createElement('td');

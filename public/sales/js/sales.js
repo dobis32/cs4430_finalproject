@@ -1,20 +1,48 @@
+async function postData(url, data) {
+    const response = await fetch(url, {
+      method: 'POST', 
+      mode: 'cors', 
+      cache: 'no-cache', 
+      credentials: 'same-origin',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      redirect: 'follow', 
+      referrer: 'no-referrer', 
+      body: JSON.stringify(data) 
+    });
+    return await response.json();
+  }
+
 var inflateEmployeeRecord = function(recordData){
     const recordDiv = document.createElement('tr');
     const id = document.createElement('td');
+    const idLink = document.createElement('a');
+    id.appendChild(idLink);
+    idLink.href = recordData.SaleID ? `/sales/edit?id=${ recordData.SaleID }` : '';
     id.classList.add('id')
-    id.innerHTML = recordData.SaleID ? recordData.SaleID : 'NULL' ;
+    idLink.innerHTML = recordData.SaleID ? recordData.SaleID : 'NULL' ;
     recordDiv.appendChild(id);
     const eid = document.createElement('td');
-    id.classList.add('id')
-    eid.innerHTML = recordData.EmployeeID ? recordData.EmployeeID : 'NULL';
+    const eidLink = document.createElement('a');
+    eid.appendChild(eidLink);
+    eidLink.href = recordData.SaleID ? `/employees/edit?id=${ recordData.EmployeeID }` : '';
+    eid.classList.add('id')
+    eidLink.innerHTML = recordData.EmployeeID ? recordData.EmployeeID : 'NULL';
     recordDiv.appendChild(eid);
     const cid = document.createElement('td');
-    id.classList.add('id')
-    cid.innerHTML = recordData.CustomerID ? recordData.CustomerID : 'NULL';
+    const cidLink = document.createElement('a');
+    cid.appendChild(cidLink);
+    cidLink.href = recordData.CustomerID ? `/customers/edit?id=${ recordData.CustomerID }` : '';
+    cid.classList.add('id')
+    cidLink.innerHTML = recordData.CustomerID ? recordData.CustomerID : 'NULL';
     recordDiv.appendChild(cid);
     const vid = document.createElement('td');
-    id.classList.add('id')
-    vid.innerHTML = recordData.VehicleID ? recordData.VehicleID : 'NULL';
+    const vidLink = document.createElement('a');
+    vid.appendChild(vidLink);
+    vidLink.href = recordData.VehicleID ? `/vehicles/edit?id=${ recordData.VehicleID }` : '';
+    vid.classList.add('id')
+    vidLink.innerHTML = recordData.VehicleID ? recordData.VehicleID : 'NULL';
     recordDiv.appendChild(vid);
     const salesToDate = document.createElement('td');
     salesToDate.innerHTML = recordData.SubTotal.toFixed(2);
@@ -37,6 +65,13 @@ var inflateEmployeeRecord = function(recordData){
     recordDiv.appendChild(editTD);
     const removeTD = document.createElement('td');
     const removeButton = document.createElement('button');
+    removeButton.addEventListener('click', async event => {
+        const result = await postData('/sales/remove', { id: recordData.SaleID });
+        if(result.status){
+          alert(result.message);
+          location.reload();
+        }
+    });
     removeButton.innerHTML = 'Remove';
     removeButton.classList.add('removeButton');
     removeTD.appendChild(removeButton);
