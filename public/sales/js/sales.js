@@ -17,23 +17,20 @@ async function postData(url, data) {
 var inflateEmployeeRecord = function(recordData){
     const recordDiv = document.createElement('tr');
     const id = document.createElement('td');
-    const idLink = document.createElement('a');
-    id.appendChild(idLink);
-    idLink.href = recordData.SaleID ? `/sales/edit?id=${ recordData.SaleID }` : '';
     id.classList.add('id')
-    idLink.innerHTML = recordData.SaleID ? recordData.SaleID : 'NULL' ;
+    id.innerHTML = recordData.SaleID ? recordData.SaleID : 'NULL' ;
     recordDiv.appendChild(id);
     const eid = document.createElement('td');
     const eidLink = document.createElement('a');
     eid.appendChild(eidLink);
-    eidLink.href = recordData.SaleID ? `/employees/edit?id=${ recordData.EmployeeID }` : '';
+    eidLink.href = recordData.SaleID ? `/employees/edit?id=${ recordData.EmployeeID }` : location.href;
     eid.classList.add('id')
     eidLink.innerHTML = recordData.EmployeeID ? recordData.EmployeeID : 'NULL';
     recordDiv.appendChild(eid);
     const cid = document.createElement('td');
     const cidLink = document.createElement('a');
     cid.appendChild(cidLink);
-    cidLink.href = recordData.CustomerID ? `/customers/edit?id=${ recordData.CustomerID }` : '';
+    cidLink.href = recordData.CustomerID ? `/customers/edit?id=${ recordData.CustomerID }` : location.href;
     cid.classList.add('id')
     cidLink.innerHTML = recordData.CustomerID ? recordData.CustomerID : 'NULL';
     recordDiv.appendChild(cid);

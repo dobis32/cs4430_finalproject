@@ -30,6 +30,26 @@ router.get('/vehicles', async (req, res) => {
                 res.send({ status: false, message:'No vehicle with that ID found!'});
             }
         })
+    } else if (req.query.model) {
+        let data;
+        dbconnection.query(`SELECT * FROM vehicles WHERE Model = '${req.query.model}'`, (error, results, fields) => {
+            if (error) throw error;
+            let data = [];
+            results.forEach(record =>{
+                data.push(record);
+            })
+            res.render('vehicles', { data: JSON.stringify(data) });
+        });
+    } else if (req.query.make) {
+        let data;
+        dbconnection.query(`SELECT * FROM vehicles WHERE Make = '${req.query.make}'`, (error, results, fields) => {
+            if (error) throw error;
+            let data = [];
+            results.forEach(record =>{
+                data.push(record);
+            })
+            res.render('vehicles', { data: JSON.stringify(data) });
+        });
     } else {
         let data;
         dbconnection.query('SELECT * FROM vehicles', (error, results, fields) => {

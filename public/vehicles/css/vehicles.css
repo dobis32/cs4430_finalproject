@@ -8,6 +8,14 @@
   text-align: center;
 }
 
+#buyndrive {
+  font-family: 'Faster One';
+  color: #fff;
+  font-size: 20px;
+  text-decoration: none;
+  margin-top: 1vw;
+}
+
 #success {
   color: #090;
 }

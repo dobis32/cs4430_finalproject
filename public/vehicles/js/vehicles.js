@@ -1,5 +1,4 @@
 var inflateEmployeeRecord = function(recordData){
-    console.log(recordData);
     const recordDiv = document.createElement('tr');
     // ID
     const id = document.createElement('td');
@@ -8,11 +7,17 @@ var inflateEmployeeRecord = function(recordData){
     recordDiv.appendChild(id);
     // Make
     const make = document.createElement('td');
-    make.innerHTML = recordData.Make;
+    const makeAnchor = document.createElement('a');
+    makeAnchor.href = `/vehicles?make=${recordData.Make}`;
+    makeAnchor.innerHTML = recordData.Make;
+    make.appendChild(makeAnchor);
     recordDiv.appendChild(make);
     // Model
     const model = document.createElement('td');
-    model.innerHTML = recordData.Model;
+    const modelAnchor = document.createElement('a');
+    modelAnchor.href = `/vehicles?model=${recordData.Model}`
+    modelAnchor.innerHTML = recordData.Model;
+    model.appendChild(modelAnchor);
     recordDiv.appendChild(model);
     // Year
     const year = document.createElement('td');
@@ -44,21 +49,18 @@ var inflateEmployeeRecord = function(recordData){
         let confirmed = confirm('Are you sure you want to delete this record?');
         if (confirmed) {
             let result = await postData(`/vehicles/remove`, { id: recordData.VehicleID });
-            console.log(result)
             if (result.status) {
                 alert('Record removed successfully!');
                 location.href = '/vehicles';
             } else {
                 alert('Record removal failed!');
             }
-            
         }
     });
     removeButton.innerHTML = 'Remove';
     removeButton.classList.add('removeButton')
     removeTD.appendChild(removeButton)
     recordDiv.appendChild(removeTD);
-
     return recordDiv;
 }
 
