@@ -5,6 +5,21 @@ const dbconnection = db();
 const router = new express.Router();
 
 router.get('/customers', async (req, res) => {
+    let links = {
+        id: `/customers?sort=customerid&order=asc`,
+        lastname: `/customers?sort=lastname&order=asc`
+    }
+    let orderClause = '';
+    if (req.query.sort && req.query.order) {
+        orderClause = `ORDER BY ${req.query.sort} ${req.query.order}`
+        if (req.query.sort == 'customerid') {
+            links.id = `/customers?sort=customerid&order=${req.query.order == 'asc' ? 'desc' : 'asc'}`
+        }
+        else if (req.query.sort == 'lastname'){
+            links.lastname = `/customers?sort=lastname&order=${req.query.order == 'asc' ? 'desc' : 'asc'}`
+        }
+    }
+    
     if(req.query.id){
         let data;
         dbconnection.query(`SELECT * FROM customers WHERE CustomerID = ${req.query.id}`, (error, results, fields) => {
@@ -21,13 +36,13 @@ router.get('/customers', async (req, res) => {
         })
     } else {
         let data;
-        dbconnection.query('SELECT * FROM customers', (error, results, fields) => {
+        dbconnection.query(`SELECT * FROM customers ${orderClause}`, (error, results, fields) => {
             if (error) throw error;
             let data = [];
             results.forEach(record =>{
                 data.push(record)
             });
-            res.render('customers', { data: JSON.stringify(data) });
+            res.render('customers', { data: JSON.stringify(data), links });
         });
     }
 });

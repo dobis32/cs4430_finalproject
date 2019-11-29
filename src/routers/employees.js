@@ -5,6 +5,27 @@ const dbconnection = db();
 const router = new express.Router();
 
 router.get('/employees', async (req, res) => {
+    let links = {
+        id: `/employees?sort=employeeid&order=asc`,
+        lastname: `/employees?sort=lastname&order=asc`,
+        hiredate: `/employees?sort=hiredate&order=asc`,
+        commission: `/employees?sort=commission&order=asc`
+    }
+    if (req.query.sort && req.query.order) {
+        if (req.query.sort == 'employeeid') {
+            links.id = `/employees?sort=employeeid&order=${req.query.order == 'asc' ? 'desc' : 'asc'}`
+        }
+        else if (req.query.sort == 'lastname'){
+            links.lastname = `/employees?sort=lastname&order=${req.query.order == 'asc' ? 'desc' : 'asc'}`
+        }
+        else if (req.query.sort == 'hiredate'){
+            links.hiredate = `/employees?sort=hiredate&order=${req.query.order == 'asc' ? 'desc' : 'asc'}`
+        }
+        else if (req.query.sort == 'commission'){
+            links.commission = `/employees?sort=commission&order=${req.query.order == 'asc' ? 'desc' : 'asc'}`
+        }
+        
+    }
     if(req.query.id){
         let data;        
         dbconnection.query(`SELECT * FROM employees WHERE employees.EmployeeID = ${req.query.id};`, (error, results, fields) => {
@@ -14,14 +35,14 @@ router.get('/employees', async (req, res) => {
                 data.push(record)
             })
             if (data.length > 0) {
-                res.send({ data: JSON.stringify(data), status: true });
+                res.send({ data: JSON.stringify(data),status: true });
             } else {
                 res.send({ status: false });
             }
         })
     } else {
-        let data = [];
-        let sales = [];
+        var data = [];
+        var sales = [];
         dbconnection.beginTransaction((error) => {
             const failureResponse = () => {
                 res.send({ status: false, message: 'Something failed!'})
@@ -36,7 +57,11 @@ router.get('/employees', async (req, res) => {
                         results.forEach(record => {
                             sales.push(record)
                         });
-                        dbconnection.query(`SELECT * FROM employees`, (error, results, fields) => {
+                        let orderClause = '';
+                        if (req.query.sort && req.query.order) {
+                            orderClause = `ORDER BY ${req.query.sort} ${req.query.order}`
+                        }
+                        dbconnection.query(`SELECT * FROM employees ${orderClause}`, (error, results, fields) => {
                             if (error) {
                                 console.log('[ERROR]', error);
                                 dbconnection.rollback(failureResponse());
@@ -51,12 +76,13 @@ router.get('/employees', async (req, res) => {
                                     }
                                     else {
                                         for(let i = 0; i < sales.length; i++) {
-                                            let eid = sales[i].EmployeeID;
-                                            if(sales[i].EmployeeID == data[eid - 1].EmployeeID){
-                                                data[eid - 1].allSales = sales[i].s1
+                                            for(let k = 0; k < data.length; k++) {
+                                                if(sales[i].EmployeeID == data[k].EmployeeID){
+                                                    data[k].allSales = sales[i].s1
+                                                }
                                             }
                                         }
-                                        res.render('employees', { data: JSON.stringify(data) });
+                                        res.render('employees', { data: JSON.stringify(data), links });
                                     } 
                                 }); 
                             }

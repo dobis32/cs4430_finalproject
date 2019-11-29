@@ -172,7 +172,17 @@ body #records-modal tr th {
   background: #f9f1f1;
 }
 
-body #records-modal tr th .id {
+body #records-modal tr th a, body #records-modal tr th a:visited {
+  text-decoration: none;
+  color: #000;
+}
+
+body #records-modal tr th a:hover, body #records-modal tr th a:visited:hover {
+  color: #66c3d9;
+  cursor: pointer;
+}
+
+body #records-modal tr .id {
   width: 3%;
 }
 /*# sourceMappingURL=sales.css.map */

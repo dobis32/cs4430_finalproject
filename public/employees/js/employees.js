@@ -74,5 +74,4 @@ const recordsList = document.querySelector('#records-list')
 console.log(recordsData)
 for(let i = 0; i < recordsData.length; i++){
     recordsList.appendChild(inflateEmployeeRecord(recordsData[i]))
-
 }

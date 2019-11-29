@@ -156,6 +156,16 @@ body #records-modal #records-list th {
   background: #f9f1f1;
 }
 
+body #records-modal #records-list th a, body #records-modal #records-list th a:visited {
+  text-decoration: none;
+  color: #000;
+}
+
+body #records-modal #records-list th a:hover, body #records-modal #records-list th a:visited:hover {
+  color: #66c3d9;
+  cursor: pointer;
+}
+
 body #records-modal #records-list tr td, body #records-modal #records-list tr th {
   width: 8%;
   height: 1.5em;

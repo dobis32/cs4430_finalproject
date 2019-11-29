@@ -5,8 +5,42 @@ const dbconnection = db();
 const router = new express.Router();
 
 router.get('/sales', async (req, res) => {
+    let links = {
+        id: `/sales?sort=saleid&order=asc`,
+        employee: `/sales?sort=employeeid&order=asc`,
+        customer: `/sales?sort=customerid&order=asc`,
+        vehicle: `/sales?sort=vehicleid&order=asc`,
+        subtotal: `/sales?sort=subtotal&order=asc`,
+        commission: `/sales?sort=commission&order=asc`,
+        nettotal: `/sales?sort=nettotal&order=asc`
+    }
+    let orderClause = '';
+    if (req.query.sort && req.query.order) {
+        orderClause = `ORDER BY ${req.query.sort} ${req.query.order}`
+        if (req.query.sort == 'saleid') {
+            links.id = `/sales?sort=saleid&order=${req.query.order == 'asc' ? 'desc' : 'asc'}`
+        }
+        else if (req.query.sort == 'employeeid'){
+            links.employee = `/sales?sort=employeeid&order=${req.query.order == 'asc' ? 'desc' : 'asc'}`
+        }
+        else if (req.query.sort == 'customerid'){
+            links.customer = `/sales?sort=customerid&order=${req.query.order == 'asc' ? 'desc' : 'asc'}`
+        }
+        else if (req.query.sort == 'vehicleid'){
+            links.vehicle = `/sales?sort=vehicleid&order=${req.query.order == 'asc' ? 'desc' : 'asc'}`
+        }
+        else if (req.query.sort == 'subtotal'){
+            links.subtotal = `/sales?sort=subtotal&order=${req.query.order == 'asc' ? 'desc' : 'asc'}`
+        }
+        else if (req.query.sort == 'commission'){
+            links.commission = `/sales?sort=commission&order=${req.query.order == 'asc' ? 'desc' : 'asc'}`
+        }
+        else if (req.query.sort == 'nettotal'){
+            links.nettotal = `/sales?sort=nettotal&order=${req.query.order == 'asc' ? 'desc' : 'asc'}`
+        }
+    }
     let data;
-    dbconnection.query('SELECT * FROM sales', (error, results, fields) => {
+    dbconnection.query(`SELECT *, (subtotal - (commission*subtotal)) AS nettotal FROM sales ${orderClause}`, (error, results, fields) => {
         if (error) {
             console.log('[ERROR]', error)
         }
@@ -14,7 +48,7 @@ router.get('/sales', async (req, res) => {
         results.forEach(record =>{
             data.push(record)
         });
-        res.render('sales', { data: JSON.stringify(data) });
+        res.render('sales', { data: JSON.stringify(data), links });
     })
 });
 

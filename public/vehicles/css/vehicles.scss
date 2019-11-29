@@ -129,13 +129,19 @@ body {
             }
             th {
                 background: #f9f1f1;
+                a, a:visited{
+                    text-decoration: none;
+                    color: #000;
+                    &:hover {
+                        color: #66c3d9;
+                        cursor: pointer;
+                    }
+                }
             }
             .id{
                 width: 3%;
             }
             
-        }
-        h1{
         }
     }
 }
