@@ -163,6 +163,10 @@ body #records-modal #records-list td button, body #records-modal #records-list t
   width: 80%;
 }
 
+body #records-modal #records-list td a, body #records-modal #records-list td a:visited {
+  color: #00f;
+}
+
 body #records-modal #records-list th {
   background: #f9f1f1;
 }

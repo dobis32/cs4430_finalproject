@@ -16,6 +16,7 @@ const validData = function(firstName, lastName, phone) {
             phoneTokens.forEach(token => {
                 for(let i = 0; i < token.length; i++){
                     buffer = parseInt(token[i])
+                    if (isNaN(buffer)) isValid = false;
                 }
             });
         }
@@ -55,6 +56,9 @@ const saveChanges = async function() {
             const data = await postData('/customers/save', {id, firstName, lastName, phone})
             if(data.status){
                 document.querySelector('#success').style.display = 'block'
+                document.querySelector('#id-buffer').value = data.id
+                document.querySelector('#heading-section h1').innerHTML = 'Edit Customer Record'
+                document.querySelector('#save-changes').innerHTML = 'Save Changes'
             }
             else {
                 document.querySelector('#failure').style.display = 'block'

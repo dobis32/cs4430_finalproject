@@ -1,13 +1,13 @@
-const validData = function(firstName, lastName, hireDate, salesToDate, phone, commission) {
+const validData = function(firstName, lastName, hireDate, phone, commission) {
     let isValid = true;
     if(firstName.length > 16 || lastName.length > 24 || phone.length > 12){
         isValid = false;
     }
     try {
         let dateBuffer = new Date(`${hireDate} 00:00:00`);
-        let salesBuffer = parseFloat(salesToDate).toFixed(2);
-        let commissionBuffer = parseFloat(commission).toFixed(2);
-        if(!dateBuffer || salesBuffer < 0 || commissionBuffer > 1 || commissionBuffer < 0){
+        let commissionBuffer = parseFloat(commission);
+        if (isNaN(commissionBuffer)) isValid = false
+        else if(!dateBuffer || commissionBuffer > 1 || commissionBuffer < 0){
             isValid = false;
         }
         let dateTokens = hireDate.split('-');
@@ -28,17 +28,12 @@ const validData = function(firstName, lastName, hireDate, salesToDate, phone, co
         isValid = false;
     }
     else{
-        try{
-            let buffer = 0;
-            phoneTokens.forEach(token => {
-                for(let i = 0; i < token.length; i++){
-                    buffer = parseInt(token[i])
-                }
-            });
-        }
-        catch(error){
-            isValid = false;
-        }
+        phoneTokens.forEach(token => {
+            for(let i = 0; i < token.length; i++){
+                let buffer = parseInt(token[i])
+                if (isNaN(buffer)) isValid = false;
+            }
+        });
     }
     return isValid;
 }
@@ -65,20 +60,21 @@ const saveChanges = async function() {
     const dateTimeBuffer = document.querySelector('#hire-date').value.split('T');
     const hireDateTokenBuffer = dateTimeBuffer[0].split('-');
     const hireDateBuffer = JSON.stringify(new Date(hireDateTokenBuffer[2], parseInt(hireDateTokenBuffer[0]) - 1, hireDateTokenBuffer[1])).replace('"', '').replace('"', '');
-    console.log(hireDateBuffer.split('T'))
     const hireDate = `${hireDateBuffer.replace('T', ' ').replace('Z','')}`
-    const salesToDate = parseFloat(document.querySelector('#sales').value).toFixed(2);
     const phone = document.querySelector('#phone').value;
     const commission = parseFloat(document.querySelector('#commission').value).toFixed(2);
-    const valid = validData(firstName, lastName, hireDate, salesToDate, phone, commission);
+    const valid = validData(firstName, lastName, hireDate, phone, commission);
     if (valid) {
         try {
             document.querySelector('#success').style.display = 'none';
             document.querySelector('#failure').style.display = 'none';
             const id = parseInt(document.querySelector('#id-buffer').value);
-            const data = await postData('/employees/save', {id, firstName, lastName, hireDate, salesToDate, phone, commission})
+            const data = await postData('/employees/save', {id, firstName, lastName, hireDate, phone, commission})
             if(data.status){
                 document.querySelector('#success').style.display = 'block'
+                document.querySelector('#id-buffer').value = data.id;
+                document.querySelector('#heading-section h1').innerHTML = 'Edit Employee Record'
+                document.querySelector('#save-changes').innerHTML = 'Save Changes'
             }
             else {
                 document.querySelector('#failure').style.display = 'block'

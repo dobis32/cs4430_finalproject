@@ -86,7 +86,13 @@ router.post('/sales/save', async (req, res) => {
         } else {
             dbconnection.query(`INSERT INTO sales (EmployeeID, CustomerID, VehicleID, SubTotal, Commission) VALUES ('${req.body.eid}', '${req.body.cid}', '${req.body.vid}', ${req.body.subtotal}, ${req.body.commission})`, (error, results, fields) => {
                 if (error) throw error;
-                res.status(201).send({status: true})
+                dbconnection.query(`SELECT MAX(SaleID) AS id FROM sales`, (error, results, fields) => {
+                    let data = [];
+                    results.forEach(record =>{
+                        data.push(record);
+                    });
+                    res.status(201).send({status: true, id: data[0].id})
+                });
             });
         }
         

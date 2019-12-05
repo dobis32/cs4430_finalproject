@@ -123,14 +123,21 @@ router.get('/employees/edit', async (req, res) => {
 router.post('/employees/save', async (req, res) => {
     try{
         if(req.body.id > 0){
-            dbconnection.query(`UPDATE employees SET FirstName = '${req.body.firstName}', LastName = '${req.body.lastName}', HireDate = '${req.body.hireDate}', SalesToDate = ${req.body.salesToDate}, Phone = '${req.body.phone}', Commission = ${req.body.commission} WHERE EmployeeID = '${req.body.id}'`, (error, results, fields) => {
+            dbconnection.query(`UPDATE employees SET FirstName = '${req.body.firstName}', LastName = '${req.body.lastName}', HireDate = '${req.body.hireDate}', Phone = '${req.body.phone}', Commission = ${req.body.commission} WHERE EmployeeID = '${req.body.id}'`, (error, results, fields) => {
                 if (error)  console.log(error);
                 res.status(201).send({status: true})
             });
         } else {
-            dbconnection.query(`INSERT INTO employees (FirstName, LastName, HireDate, SalesToDate, Phone, Commission) VALUES ('${req.body.firstName}', '${req.body.lastName}', '${req.body.hireDate}', ${req.body.salesToDate}, '${req.body.phone}' , ${req.body.commission})`, (error, results, fields) => {
+            dbconnection.query(`INSERT INTO employees (FirstName, LastName, HireDate, Phone, Commission) VALUES ('${req.body.firstName}', '${req.body.lastName}', '${req.body.hireDate}', '${req.body.phone}' , ${req.body.commission})`, (error, results, fields) => {
                 if (error) throw error;
-                res.status(201).send({status: true})
+                dbconnection.query(`SELECT MAX(EmployeeID) AS id FROM employees`, (error, results, fields) => {
+                    let data = [];
+                    results.forEach(record =>{
+                        data.push(record);
+                    });
+                    res.status(201).send({status: true, id: data[0].id})
+                });
+                
             });
         }
         

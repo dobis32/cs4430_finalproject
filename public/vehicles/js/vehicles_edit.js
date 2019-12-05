@@ -6,10 +6,11 @@ const validData = function(make, model, year, color, price) {
     }
     try {
         let parsedYear = parseInt(year);
-        let parsedPrice = parseFloat(price).toFixed(2);
+        let parsedPrice = parseFloat(price);
         if(parsedYear < 0 || parsedPrice < 0){
             isValid = false;
         }
+        if (isNaN(parsedYear) || isNaN(parsedPrice)) isValid = false
     } catch(error) {
         isValid = false;
         console.log(error)
@@ -59,10 +60,13 @@ const saveChanges = async function() {
             const id = parseInt(document.querySelector('#id-buffer').value);
             const data = await postData('/vehicles/save', {id, make, model, year, color, price})
             if(data.status){
-                document.querySelector('#success').style.display = 'block'
+                document.querySelector('#success').style.display = 'block';
+                document.querySelector('#id-buffer').value = data.id;
+                document.querySelector('#heading-section h1').innerHTML = 'Edit Vehicle Record';
+                document.querySelector('#save-changes').innerHTML = 'Save Changes';
             }
             else {
-                document.querySelector('#failure').style.display = 'block'
+                document.querySelector('#failure').style.display = 'block';
             }
         }
         catch (error) {
@@ -70,13 +74,13 @@ const saveChanges = async function() {
         }
     }
     else {
-        alert('Invalid data entered. Please check fields before trying to submit again.')
+        alert('Invalid data entered. Please check fields before trying to submit again.');
     }
 }
 try{
     const id = parseInt(document.querySelector('#id-buffer').value);
     if (id > 0) {
-        document.querySelector('#heading-section h1').innerHTML = 'Edit Vehicle Info'
+        document.querySelector('#heading-section h1').innerHTML = 'Edit Vehicle Info';
         const data = JSON.parse(document.querySelector('#hidden-buffer').value);
         const price = parseFloat(data.Price).toFixed(2);
         document.querySelector('#make').value = data.Make.toUpperCase();
@@ -88,11 +92,12 @@ try{
         document.querySelector('#sold').style.display = data.sold > 0 ?  'block' : 'none';
     }
     else {
-        document.querySelector('#heading-section h1').innerHTML = 'Create Vehicle Record'
-        document.querySelector('#save-changes').innerHTML = 'Create Record'
+        document.querySelector('#heading-section h1').innerHTML = 'Create Vehicle Record';
+        document.querySelector('#save-changes').innerHTML = 'Create Record';
+        document.querySelector('#sold').style.display = 'none';
     }
 }
 catch (error){
-    alert(error)
-    location.href='/vehicles'
+    alert(error);
+    location.href='/vehicles';
 }

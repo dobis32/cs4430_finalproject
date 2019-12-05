@@ -81,7 +81,13 @@ router.post('/customers/save', async (req, res) => {
         } else {
             dbconnection.query(`INSERT INTO customers (FirstName, LastName, Phone) VALUES ('${req.body.firstName}', '${req.body.lastName}', '${req.body.phone}')`, (error, results, fields) => {
                 if (error) throw error;
-                res.status(201).send({status: true})
+                dbconnection.query(`SELECT MAX(CustomerID) AS id FROM customers`, (error, results, fields) => {
+                    let data = [];
+                    results.forEach(record =>{
+                        data.push(record);
+                    });
+                    res.status(201).send({status: true, id: data[0].id})
+                });
             });
         }
         

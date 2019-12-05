@@ -1,6 +1,7 @@
 const validData = function(employeeID, customerID, vehicleID, subtotal, commission) {
     let isValid = true;
-    if(employeeID < 1 || customerID < 1 || vehicleID < 1 || subtotal <= 0 || commission <= 0){
+    if (isNaN(employeeID) || isNaN(customerID) || isNaN(vehicleID) || isNaN(subtotal) || isNaN(commission)) isValid = false;
+    else if (employeeID < 1 || customerID < 1 || vehicleID < 1 || subtotal <= 0 || commission <= 0){
         isValid = false;
     }
     return isValid;
@@ -38,7 +39,8 @@ const checkEmployeeID = async function() {
     let isValid = true;
     try {
         const id = parseInt(document.querySelector('#employee-id').value);
-        if (id > 0) {
+        if (isNaN(id)) isValid = false;
+        else if (id > 0) {
             const result = await getData(`/employees?id=${id}`)
             if (result.status) {
                 const data = JSON.parse(result.data)[0];
@@ -65,7 +67,8 @@ const checkCustomerID = async function() {
     let isValid = true;
     try {
         const id = parseInt(document.querySelector('#customer-id').value);
-        if (id > 0) {
+        if (isNaN(id)) isValid = false;
+        else if (id > 0) {
             const result = await getData(`/customers?id=${id}`)
             if (!result.status) {
                 isValid = false;
@@ -74,7 +77,6 @@ const checkCustomerID = async function() {
             isValid = false;
         }
     } catch(error) {
-        console.log(error)
         isValid = false;
     }
     if (isValid){
@@ -103,7 +105,8 @@ const checkVehicleID = async function() {
     let message = ''
     try {
         const id = parseInt(document.querySelector('#vehicle-id').value);
-        if (id > 0) {
+        if (isNaN(id)) return isValid = false;
+        else if (id > 0) {
             const result = await getData(`/vehicles?id=${id}`)
             if (result.status) {
                 const data = JSON.parse(result.data)[0];
@@ -119,7 +122,6 @@ const checkVehicleID = async function() {
             isValid = false;
         }
     } catch(error) {
-        console.log(error)
         isValid = false;
     }
     if (isValid){
@@ -135,8 +137,8 @@ const saveChanges = async function() {
         var eid = parseInt(document.querySelector('#employee-id').value);
         var cid = parseInt(document.querySelector('#customer-id').value);
         var vid = parseInt(document.querySelector('#vehicle-id').value);
-        var subtotal = parseFloat(document.querySelector('#subtotal').innerHTML).toFixed(2);
-        var commission = parseFloat(document.querySelector('#commission').innerHTML).toFixed(2)
+        var subtotal = parseFloat(document.querySelector('#subtotal').innerHTML);
+        var commission = parseFloat(document.querySelector('#commission').innerHTML)
         valid = validData(eid, cid, vid, subtotal, commission);
     } catch (error) {
         valid = false;
@@ -149,6 +151,9 @@ const saveChanges = async function() {
             const data = await postData('/sales/save', {id, eid, cid, vid, subtotal, commission})
             if (data.status) {
                 document.querySelector('#success').style.display = 'block'
+                document.querySelector('#id-buffer').value = data.id
+                document.querySelector('#heading-section h1').innerHTML = 'Edit Sale Record'
+                document.querySelector('#save-changes').innerHTML = 'Save Changes'
             } else {
                 document.querySelector('#failure').style.display = 'block'
             }
